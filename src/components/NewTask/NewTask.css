@@ -1,0 +1,16 @@
+.new-task__button{
+   width: 100%;
+   height: 60px;
+   margin-top: 30px;
+   background-color: rgb(255, 223, 228);
+   border: 1px solid pink;
+   font-size: 25px;
+   color:brown;
+   cursor: pointer;
+}
+.new-task__button:hover{
+   opacity: 0.7;
+}
+.new-task{
+   width: 100%;
+}

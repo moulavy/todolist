@@ -1,0 +1,57 @@
+
+.task{
+   display: flex;
+   justify-content: left;
+}
+.task__buttons{
+   display: flex;
+   gap:10px;
+}
+.task__button{
+   cursor: pointer;
+   padding:0;
+   border:none;
+   background-color:inherit;
+   width: 30px;
+   height: 30px;
+}
+.task__button:hover{
+   opacity: 0.6;
+}
+.task__button-img{
+   width: 100%;
+}
+.task__text{
+   margin-left: 15px;
+   margin-right: 30px;
+   max-width: 500px;
+}
+.task__title{
+   font-size: 24px;
+   color:brown;
+   margin-bottom: 5px;
+}
+.task__complite{
+   margin-left:auto;
+}
+.task__date{
+   font-size: 14px;
+   display: flex;
+   flex-direction: column;
+   gap:5px
+}
+.task__period-title,.task__date-title{
+   font-weight: 600;
+   color:brown;
+}
+.task__checkbox{
+   width: 30px;
+   height: 30px;
+  
+}
+.task__checkbox:checked{
+ background-color: brown;
+}
+.task.checked {
+  text-decoration: line-through;
+}

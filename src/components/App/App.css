@@ -1,0 +1,15 @@
+
+h1,h2,h3,h5,h6,p,ul,li,button,img,input{
+   margin: 0;
+   padding: 0;
+}
+.app{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;   
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   padding:40px;
+   width: 900px;
+   margin:0 auto;
+}

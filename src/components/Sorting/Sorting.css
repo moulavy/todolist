@@ -1,0 +1,18 @@
+.list-sort{
+   list-style: none;
+   display: flex;
+   flex-direction: row;
+   gap:20px;
+   width: 100%;
+   padding:0;
+   font-size: 24px;
+   color:brown;
+   margin: 20px 0;
+}
+.list-sort__item{
+   cursor: pointer;
+}
+.list-sort__item-active{
+    color:rgb(48, 0, 220);
+   border-bottom: 0.5px solid rgb(48, 0, 220);
+}
