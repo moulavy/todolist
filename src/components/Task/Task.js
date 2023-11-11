@@ -1,7 +1,7 @@
 import React from 'react';
 import './Task.css';
 
-function Task({onOpenEditPopup}) {
+function Task({task,onOpenEditPopup}) {
    const [isChecked, setIsChecked] = React.useState(false);
 
    const handleCheckboxChange = () => {
@@ -16,9 +16,8 @@ function Task({onOpenEditPopup}) {
                className='task__button-img task__button-edit-img' /></button>
          </div>
          <div className="task__text">
-            <h2 className="task__title">Название задачи</h2>
-            <p className="task__description">Сделать новую грамоту для йоги сделать аллею новый коврик.
-               Ложная тревога привела к опасности для жеребенка.</p>
+            <h2 className="task__title">{task.nameTask}</h2>
+            <p className="task__description">{ task.descriptionTask}</p>
          </div>
          <div className="task__date">
             <div className="task__date-create">
@@ -27,7 +26,7 @@ function Task({onOpenEditPopup}) {
             </div>
             <div className="task__period-date">
                <p className="task__period-title">Срок выполнения</p>
-               <p className="task__period-value">26.02.2023</p>
+               <p className="task__period-value">{ task.deadline}</p>
             </div>
          </div>
          <div className="task__complite">

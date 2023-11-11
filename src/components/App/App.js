@@ -10,6 +10,7 @@ import PopupEdit from '../PopupEdit/PopupEdit';
 function App() {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [taskIdCounter, setTaskIdCounter] = useState(1);
   const [tasks, setTasks] = useState([]);
   function handleAddTaskClick() {
     setIsAddPopupOpen(true);
@@ -22,7 +23,9 @@ function App() {
     setIsEditPopupOpen(false);
   }
   function handleAddTaskSubmit(data) {
-    setTasks([data, ...tasks]);
+    const newTask = { ...data, id: taskIdCounter };
+    setTasks([newTask, ...tasks]);
+    setTaskIdCounter(taskIdCounter + 1);
     closePopups();
     console.log(tasks);
   }
@@ -31,7 +34,7 @@ function App() {
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
       <Sorting></Sorting>
-      <Tasks onOpenEditPopup={handleEditTaskClick} ></Tasks>
+      <Tasks tasks={ tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
     </div>
