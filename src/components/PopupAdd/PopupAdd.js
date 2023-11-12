@@ -81,7 +81,7 @@ function PopupAdd({onAddTask,onClose, isPopupOpen}) {
                      type="datetime-local"
                      id="taskDateTime"
                      className="popup__input"
-                     min={currentDateTime} 
+                     min={currentDateTime.slice(0, 16)} 
                      value={deadline}
                      onChange={handleChangeDeadline}
                   />

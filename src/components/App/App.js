@@ -53,6 +53,12 @@ function App() {
     });
 
     setTaskIdCounter(prevCounter => prevCounter + 1);
+    if (isSortDate) {
+      handleSortDate();
+    }
+    else {
+      handleSortDeadline();
+    }
     closePopups();
   }
 
