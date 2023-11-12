@@ -1,7 +1,7 @@
 import React from 'react';
 import './Task.css';
 
-function Task({task,onOpenEditPopup}) {
+function Task({task,onOpenEditPopup,onDeleteTask}) {
    const [isChecked, setIsChecked] = React.useState(false);
 
    const handleCheckboxChange = () => {
@@ -10,10 +10,13 @@ function Task({task,onOpenEditPopup}) {
    const handleEditButtonClick = () => {
       onOpenEditPopup(task);
    };
+   const handleDeleteButtonClick = () => {
+      onDeleteTask(task);
+   }
    return (
       <li className={`task ${isChecked ? 'checked' : ''}`}>
          <div className="task__buttons">
-            <button className="task__button task__button-delete"><img src={require('../../images/delete-button.svg').default}
+            <button onClick={handleDeleteButtonClick} className="task__button task__button-delete"><img src={require('../../images/delete-button.svg').default}
                className='task__button-img task__button-delete-img' /></button>
             <button onClick={handleEditButtonClick} className="task__button task__button-edit"><img src={require('../../images/edit-button.svg').default}
                className='task__button-img task__button-edit-img' /></button>

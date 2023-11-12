@@ -12,7 +12,7 @@ function App() {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [taskIdCounter, setTaskIdCounter] = useState(1);
   const [tasks, setTasks] = useState([]);
-  const [editingTask, setEditingTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
   let isTasksRelevant = true;
   function handleAddTaskClick() {
     setIsAddPopupOpen(true);
@@ -20,13 +20,13 @@ function App() {
 
   function handleEditTaskClick(task) {
     setIsEditPopupOpen(true);
-    setEditingTask(task);
+    setSelectedTask(task);
   }
 
   function closePopups() {
     setIsAddPopupOpen(false);
     setIsEditPopupOpen(false);
-    setEditingTask(null);
+    setSelectedTask(null);
   }
 
   function handleAddTaskSubmit(data) {
@@ -48,8 +48,8 @@ function App() {
     {
       const updatedTasks = prevTasks.map(task =>
       {
-        if (task.id === editingTask.id)
-        {  // используем id из editingTask для поиска
+        if (task.id === selectedTask.id)
+        {  // используем id из selectedTask для поиска
           return { ...task, ...updatedTask }; // обновляем задачу
         }
         return task;
@@ -58,7 +58,10 @@ function App() {
     });
     closePopups();
   }
-
+ 
+  function handleDeleteTaskSubmit(deletedTask) {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== deletedTask.id));
+  }
 
   useEffect(() => {
     // загрузка задач из локального хранилища при монтировании компонента
@@ -85,9 +88,9 @@ function App() {
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
       <Sorting></Sorting>
-      <Tasks onEditTask={handleEditTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
+      <Tasks onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
-      <PopupEdit editingTask={editingTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
+      <PopupEdit editingTask={selectedTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
     </div>
   );
 }

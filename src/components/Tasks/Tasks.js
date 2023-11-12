@@ -2,7 +2,7 @@ import React from 'react';
 import './Tasks.css';
 import Task from '../Task/Task';
 
-function Tasks({tasks,onOpenEditPopup,onEditTask}) {
+function Tasks({tasks,onOpenEditPopup,onDeleteTask}) {
    return (
       <ul class="tasks">
          {tasks.map((task) => (
@@ -10,7 +10,7 @@ function Tasks({tasks,onOpenEditPopup,onEditTask}) {
                task={task}
                key={task.id}
                onOpenEditPopup={onOpenEditPopup}
-               onEditTask={onEditTask}
+               onDeleteTask={onDeleteTask}
             ></Task>
          )
          )}
