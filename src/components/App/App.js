@@ -12,29 +12,55 @@ function App() {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [taskIdCounter, setTaskIdCounter] = useState(1);
   const [tasks, setTasks] = useState([]);
+  let isTasksRelevant = true;
   function handleAddTaskClick() {
     setIsAddPopupOpen(true);
   }
+
   function handleEditTaskClick() {
     setIsEditPopupOpen(true);
   }
+
   function closePopups() {
     setIsAddPopupOpen(false);
     setIsEditPopupOpen(false);
   }
+
   function handleAddTaskSubmit(data) {
-    const newTask = { ...data, id: taskIdCounter };
-    setTasks([newTask, ...tasks]);
-    setTaskIdCounter(taskIdCounter + 1);
+    setTasks(prevTasks => {
+      const newTask = { ...data, id: taskIdCounter };
+      return [newTask, ...prevTasks];
+    });
+    setTaskIdCounter(prevCounter => prevCounter + 1);
     closePopups();
-    console.log(tasks);
   }
+
+  useEffect(() => {
+    // загрузка задач из локального хранилища при монтировании компонента
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+    // чтобы синхронизировать taskIdCounter с последним использованным идентификатором, найдем максимальный идентификатор в сохраненных задачах
+    const maxId = storedTasks.reduce((max, task) => (task.id > max ? task.id : max), 0);
+    setTaskIdCounter(maxId + 1);
+    isTasksRelevant = false;    
+    setTasks(() => {
+      isTasksRelevant = true;
+      return storedTasks;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isTasksRelevant) {
+      return;
+    }
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
   return (
     <div className="app">
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
       <Sorting></Sorting>
-      <Tasks tasks={ tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
+      <Tasks tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
     </div>
