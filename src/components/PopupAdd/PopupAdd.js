@@ -6,6 +6,7 @@ function PopupAdd({onAddTask,onClose, isPopupOpen}) {
    const [nameTask, setNameTask] = useState('');
    const [descriptionTask, setDescriptionTask] = useState('');
    const [deadline, setDeadline] = useState('');
+   const [isComplete, setIsComplete] = useState(false);
    useEffect(() => {
       if (isPopupOpen) {
          setNameTask('');
@@ -31,7 +32,8 @@ function PopupAdd({onAddTask,onClose, isPopupOpen}) {
       onAddTask({
          nameTask,
          descriptionTask,
-         deadline
+         deadline,
+         isComplete
       })
    }
    return (

@@ -2,7 +2,7 @@ import React from 'react';
 import './Tasks.css';
 import Task from '../Task/Task';
 
-function Tasks({tasks,onOpenEditPopup,onDeleteTask}) {
+function Tasks({onToggleComlete,tasks,onOpenEditPopup,onDeleteTask}) {
    return (
       <ul class="tasks">
          {tasks.map((task) => (
@@ -11,6 +11,7 @@ function Tasks({tasks,onOpenEditPopup,onDeleteTask}) {
                key={task.id}
                onOpenEditPopup={onOpenEditPopup}
                onDeleteTask={onDeleteTask}
+               onToggleComlete={onToggleComlete}
             ></Task>
          )
          )}

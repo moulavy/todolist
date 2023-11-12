@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Task.css';
 
-function Task({task,onOpenEditPopup,onDeleteTask}) {
-   const [isChecked, setIsChecked] = React.useState(false);
-
+function Task({ task, onOpenEditPopup, onDeleteTask, onToggleComlete }) {
+   
    const handleCheckboxChange = () => {
-      setIsChecked(!isChecked);
+      onToggleComlete(task.isComplete,task)
    };
    const handleEditButtonClick = () => {
       onOpenEditPopup(task);
@@ -14,7 +13,7 @@ function Task({task,onOpenEditPopup,onDeleteTask}) {
       onDeleteTask(task);
    }
    return (
-      <li className={`task ${isChecked ? 'checked' : ''}`}>
+      <li className={`task ${task.isComplete ? 'checked' : ''}`}>
          <div className="task__buttons">
             <button onClick={handleDeleteButtonClick} className="task__button task__button-delete"><img src={require('../../images/delete-button.svg').default}
                className='task__button-img task__button-delete-img' /></button>
@@ -38,7 +37,7 @@ function Task({task,onOpenEditPopup,onDeleteTask}) {
          <div className="task__complite">
             <input className='task__checkbox'
                type="checkbox"
-               checked={isChecked}
+               checked={task.isComplete}
                onChange={handleCheckboxChange}
             />
 

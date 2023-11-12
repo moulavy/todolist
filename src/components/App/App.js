@@ -70,6 +70,18 @@ function App() {
     });
     closePopups();
   }
+
+  function handleToggleComplete(isChecked,taskCheked) {
+    setTasks(prevTasks => {
+      const updatedTasks = prevTasks.map(task => {
+        if (task.id === taskCheked.id) {
+          return { ...task, isComplete: !isChecked };
+        }
+        return task;
+      });
+      return updatedTasks;
+    });
+  }
  
   function handleDeleteTaskSubmit(deletedTask) {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== deletedTask.id));
@@ -118,7 +130,7 @@ function App() {
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
       <Sorting onSortDeadline={handleSortDeadline} onSortDate={handleSortDate}></Sorting>
-      <Tasks onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
+      <Tasks onToggleComlete={handleToggleComplete} onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit editingTask={selectedTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
     </div>
