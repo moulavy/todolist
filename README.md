@@ -4,7 +4,10 @@
 # Для старта:
 ```
 git clone git@github.com:moulavy/todolist.git
+```
 
+```
+npm run start
 ```
 # Возможности
 - Добавление новых задач с указанием заголовка и описания.
