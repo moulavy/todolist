@@ -1,18 +1,21 @@
 import React from 'react';
 import './Task.css';
 
-function Task({task,onOpenEditPopup}) {
+function Task({task,onOpenEditPopup,onEditTask}) {
    const [isChecked, setIsChecked] = React.useState(false);
 
    const handleCheckboxChange = () => {
       setIsChecked(!isChecked);
+   };
+   const handleEditButtonClick = () => {
+      onOpenEditPopup(task);
    };
    return (
       <li className={`task ${isChecked ? 'checked' : ''}`}>
          <div className="task__buttons">
             <button className="task__button task__button-delete"><img src={require('../../images/delete-button.svg').default}
                className='task__button-img task__button-delete-img' /></button>
-            <button onClick={onOpenEditPopup } className="task__button task__button-edit"><img src={require('../../images/edit-button.svg').default}
+            <button onClick={handleEditButtonClick} className="task__button task__button-edit"><img src={require('../../images/edit-button.svg').default}
                className='task__button-img task__button-edit-img' /></button>
          </div>
          <div className="task__text">

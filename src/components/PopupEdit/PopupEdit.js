@@ -1,9 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './PopupEdit.css';
 
-function PopupEdit({ onClose, isPopupOpen }) {
-   const currentDateTime = new Date().toISOString().split('T')[0];
+function PopupEdit({ onClose, isPopupOpen,editingTask, onEditTask }) {
+   const currentDateTime = new Date().toISOString(); 
+   
+   const [nameTask, setNameTask] = useState('');
+   const [descriptionTask, setDescriptionTask] = useState('');
+   const [deadline, setDeadline] = useState('');
 
+   useEffect(() => {
+      if (isPopupOpen && editingTask) {
+         setNameTask(editingTask.nameTask || '');
+         setDescriptionTask(editingTask.descriptionTask || '');
+         setDeadline(editingTask.deadline || '');
+      }
+   }, [isPopupOpen,editingTask]);
+   function handleChangeNameTask(e) {
+      setNameTask(e.target.value);
+   }
+   function handleChangeDescription(e) {
+      setDescriptionTask(e.target.value);
+   }
+   function handleChangeDeadline(e) {
+      setDeadline(e.target.value.replace('T', ' '))
+   }
+   function handleSubmit(e) {
+      e.preventDefault();
+      onEditTask({
+         nameTask,
+         descriptionTask,
+         deadline
+      })
+   }
    return (
       <section className={(isPopupOpen ? "popup popup_opened" : 'popup')}>
          <div className="popup__container">
@@ -13,7 +41,7 @@ function PopupEdit({ onClose, isPopupOpen }) {
                onClick={onClose}
             ></button>
             <h2 className="popup__title">Редактирование задачи</h2>
-            <form className="popup-form">
+            <form onSubmit={handleSubmit}  className="popup-form">
                <div className="form-group">
                   <label htmlFor="taskName" className="popup__label">
                      Название задачи
@@ -23,6 +51,8 @@ function PopupEdit({ onClose, isPopupOpen }) {
                      id="taskName"
                      className="popup__input"
                      placeholder="Введите название задачи"
+                     value={nameTask}
+                     onChange={handleChangeNameTask}
                   />
                </div>
 
@@ -34,6 +64,8 @@ function PopupEdit({ onClose, isPopupOpen }) {
                      id="taskDescription"
                      className="popup__textarea"
                      placeholder="Введите описание задачи"
+                     value={descriptionTask}
+                     onChange={handleChangeDescription}
                   />
                </div>
 
@@ -45,7 +77,9 @@ function PopupEdit({ onClose, isPopupOpen }) {
                      type="datetime-local"
                      id="taskDateTime"
                      className="popup__input"
-                     min={currentDateTime} // Устанавливаем минимальную дату и время
+                     min={currentDateTime} 
+                     value={deadline}
+                     onChange={handleChangeDeadline}
                   />
                </div>
                <button className="popup__submit">Сохранить</button>

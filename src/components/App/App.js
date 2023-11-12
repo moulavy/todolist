@@ -12,18 +12,21 @@ function App() {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [taskIdCounter, setTaskIdCounter] = useState(1);
   const [tasks, setTasks] = useState([]);
+  const [editingTask, setEditingTask] = useState(null);
   let isTasksRelevant = true;
   function handleAddTaskClick() {
     setIsAddPopupOpen(true);
   }
 
-  function handleEditTaskClick() {
+  function handleEditTaskClick(task) {
     setIsEditPopupOpen(true);
+    setEditingTask(task);
   }
 
   function closePopups() {
     setIsAddPopupOpen(false);
     setIsEditPopupOpen(false);
+    setEditingTask(null);
   }
 
   function handleAddTaskSubmit(data) {
@@ -34,6 +37,23 @@ function App() {
     setTaskIdCounter(prevCounter => prevCounter + 1);
     closePopups();
   }
+
+  function handleEditTaskSubmit(updatedTask) {
+    setTasks(prevTasks =>
+    {
+      const updatedTasks = prevTasks.map(task =>
+      {
+        if (task.id === editingTask.id)
+        {  // используем id из editingTask для поиска
+          return { ...task, ...updatedTask }; // обновляем задачу
+        }
+        return task;
+      });
+      return updatedTasks;
+    });
+    closePopups();
+  }
+
 
   useEffect(() => {
     // загрузка задач из локального хранилища при монтировании компонента
@@ -60,9 +80,9 @@ function App() {
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
       <Sorting></Sorting>
-      <Tasks tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
+      <Tasks onEditTask={handleEditTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
-      <PopupEdit onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
+      <PopupEdit editingTask={editingTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
     </div>
   );
 }
