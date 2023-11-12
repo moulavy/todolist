@@ -75,6 +75,12 @@ function App() {
       });
       return updatedTasks;
     });
+    if (isSortDate) {
+      handleSortDate();
+    }
+    else {
+      handleSortDeadline();
+    }
     closePopups();
   }
 
