@@ -28,7 +28,7 @@ function Task({task,onOpenEditPopup,onDeleteTask}) {
          <div className="task__date">
             <div className="task__date-create">
                <p className="task__date-title">Дата создания</p>
-               <p className="task__date-value">{ task.dateCreated}</p>
+               <p className="task__date-value">{ task.formattedDateTime}</p>
             </div>
             <div className="task__period-date">
                <p className="task__period-title">Срок выполнения</p>

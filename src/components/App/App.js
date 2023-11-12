@@ -30,15 +30,27 @@ function App() {
   }
 
   function handleAddTaskSubmit(data) {
-    const currentDate = new Date().toLocaleDateString();
+    const currentDateTime = new Date();
+
+    // получаем компоненты времени
+    const year = currentDateTime.getFullYear();
+    const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDateTime.getDate()).padStart(2, '0');
+    const hours = String(currentDateTime.getHours()).padStart(2, '0');
+    const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+
+    // собираем строку с датой и временем
+    const formattedDateTime = `${year}.${month}.${day} ${hours}:${minutes}`;
+
     setTasks(prevTasks => {
       const newTask = {
         ...data,
         id: taskIdCounter,
-        dateCreated: currentDate,
+        formattedDateTime: formattedDateTime,
       };
       return [newTask, ...prevTasks];
     });
+
     setTaskIdCounter(prevCounter => prevCounter + 1);
     closePopups();
   }
@@ -61,6 +73,24 @@ function App() {
  
   function handleDeleteTaskSubmit(deletedTask) {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== deletedTask.id));
+  }
+  function handleSortDeadline() {
+    setTasks(prevTasks => {
+      const sortedTasks = [...prevTasks].sort((a, b) => {
+        return new Date(a.deadline) - new Date(b.deadline);
+      });
+      return sortedTasks;
+    });
+  }
+
+ 
+  function handleSortDate() {
+    setTasks(prevTasks => {
+      const sortedTasks = [...prevTasks].sort((a, b) => {
+        return new Date(a.formattedDateTime) - new Date(b.formattedDateTime);
+      });
+      return sortedTasks;
+    });
   }
 
   useEffect(() => {
@@ -87,7 +117,7 @@ function App() {
     <div className="app">
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
-      <Sorting></Sorting>
+      <Sorting onSortDeadline={handleSortDeadline} onSortDate={handleSortDate}></Sorting>
       <Tasks onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit editingTask={selectedTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
