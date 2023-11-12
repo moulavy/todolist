@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Task.css';
 
 function Task({ task, onOpenEditPopup, onDeleteTask, onToggleComlete }) {

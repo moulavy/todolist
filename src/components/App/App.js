@@ -13,6 +13,7 @@ function App() {
   const [taskIdCounter, setTaskIdCounter] = useState(1);
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [isSortDate, setIsSortDate] = useState(true);
   let isTasksRelevant = true;
   function handleAddTaskClick() {
     setIsAddPopupOpen(true);
@@ -71,10 +72,10 @@ function App() {
     closePopups();
   }
 
-  function handleToggleComplete(isChecked,taskCheked) {
+  function handleToggleComplete(isChecked,taskChecked) {
     setTasks(prevTasks => {
       const updatedTasks = prevTasks.map(task => {
-        if (task.id === taskCheked.id) {
+        if (task.id === taskChecked.id) {
           return { ...task, isComplete: !isChecked };
         }
         return task;
@@ -87,6 +88,8 @@ function App() {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== deletedTask.id));
   }
   function handleSortDeadline() {
+    setIsSortDate(false);
+    localStorage.setItem('isSortDate', JSON.stringify(!isSortDate));
     setTasks(prevTasks => {
       const sortedTasks = [...prevTasks].sort((a, b) => {
         return new Date(a.deadline) - new Date(b.deadline);
@@ -97,9 +100,11 @@ function App() {
 
  
   function handleSortDate() {
+    setIsSortDate(true);
+    localStorage.setItem('isSortDate', JSON.stringify(!isSortDate));
     setTasks(prevTasks => {
       const sortedTasks = [...prevTasks].sort((a, b) => {
-        return new Date(a.formattedDateTime) - new Date(b.formattedDateTime);
+        return new Date(b.formattedDateTime) - new Date(a.formattedDateTime);
       });
       return sortedTasks;
     });
@@ -108,6 +113,8 @@ function App() {
   useEffect(() => {
     // загрузка задач из локального хранилища при монтировании компонента
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let isSort = JSON.parse(localStorage.getItem('isSortDate'));
+    setIsSortDate(isSort);
     // чтобы синхронизировать taskIdCounter с последним использованным идентификатором, найдем максимальный идентификатор в сохраненных задачах
     const maxId = storedTasks.reduce((max, task) => (task.id > max ? task.id : max), 0);
     setTaskIdCounter(maxId + 1);
@@ -129,7 +136,7 @@ function App() {
     <div className="app">
       <Header></Header>
       <NewTask onOpenAddPopup={handleAddTaskClick}></NewTask>
-      <Sorting onSortDeadline={handleSortDeadline} onSortDate={handleSortDate}></Sorting>
+      <Sorting isSortDate={isSortDate} onSortDeadline={handleSortDeadline} onSortDate={handleSortDate}></Sorting>
       <Tasks onToggleComlete={handleToggleComplete} onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit editingTask={selectedTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
