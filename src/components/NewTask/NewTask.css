@@ -2,6 +2,7 @@
    width: 100%;
    height: 60px;
    margin-top: 30px;
+   border-radius:10px;
    background-color: rgb(255, 223, 228);
    border: 1px solid pink;
    font-size: 25px;

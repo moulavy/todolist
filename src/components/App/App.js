@@ -30,8 +30,13 @@ function App() {
   }
 
   function handleAddTaskSubmit(data) {
+    const currentDate = new Date().toLocaleDateString();
     setTasks(prevTasks => {
-      const newTask = { ...data, id: taskIdCounter };
+      const newTask = {
+        ...data,
+        id: taskIdCounter,
+        dateCreated: currentDate,
+      };
       return [newTask, ...prevTasks];
     });
     setTaskIdCounter(prevCounter => prevCounter + 1);
@@ -57,7 +62,7 @@ function App() {
 
   useEffect(() => {
     // загрузка задач из локального хранилища при монтировании компонента
-    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     // чтобы синхронизировать taskIdCounter с последним использованным идентификатором, найдем максимальный идентификатор в сохраненных задачах
     const maxId = storedTasks.reduce((max, task) => (task.id > max ? task.id : max), 0);
     setTaskIdCounter(maxId + 1);

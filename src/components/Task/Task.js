@@ -1,7 +1,7 @@
 import React from 'react';
 import './Task.css';
 
-function Task({task,onOpenEditPopup,onEditTask}) {
+function Task({task,onOpenEditPopup}) {
    const [isChecked, setIsChecked] = React.useState(false);
 
    const handleCheckboxChange = () => {
@@ -25,11 +25,11 @@ function Task({task,onOpenEditPopup,onEditTask}) {
          <div className="task__date">
             <div className="task__date-create">
                <p className="task__date-title">Дата создания</p>
-               <p className="task__date-value">23.06.2022</p>
+               <p className="task__date-value">{ task.dateCreated}</p>
             </div>
             <div className="task__period-date">
                <p className="task__period-title">Срок выполнения</p>
-               <p className="task__period-value">{ task.deadline}</p>
+               <p className="task__period-value">{task.deadline.replace(/-/g, '.')}</p>
             </div>
          </div>
          <div className="task__complite">

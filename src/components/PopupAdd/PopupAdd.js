@@ -22,7 +22,8 @@ function PopupAdd({onAddTask,onClose, isPopupOpen}) {
       setDescriptionTask(e.target.value);
    }
    function handleChangeDeadline(e) {
-      setDeadline(e.target.value.replace('T', ' '))
+      let formattedDate = e.target.value.replace('T', ' ');
+      setDeadline(formattedDate);
    }
   
    function handleSubmit(e) {
