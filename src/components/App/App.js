@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.css';
 import Header from '../Header/Header.js';
 import NewTask from '../NewTask/NewTask.js';
@@ -6,6 +6,8 @@ import Sorting from '../Sorting/Sorting.js';
 import Tasks from '../Tasks/Tasks.js'
 import PopupAdd from '../PopupAdd/PopupAdd';
 import PopupEdit from '../PopupEdit/PopupEdit';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
@@ -152,6 +154,7 @@ function App() {
       <Tasks onToggleComlete={handleToggleComplete} onDeleteTask={handleDeleteTaskSubmit} tasks={tasks} onOpenEditPopup={handleEditTaskClick} ></Tasks>
       <PopupAdd onAddTask={handleAddTaskSubmit} onClose={closePopups} isPopupOpen={isAddPopupOpen}></PopupAdd>
       <PopupEdit editingTask={selectedTask} onEditTask={handleEditTaskSubmit} onClose={closePopups} isPopupOpen={isEditPopupOpen}></PopupEdit>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,8 +1,10 @@
-import React from 'react';
+import React,{useEffect,useState,useRef} from 'react';
 import './Task.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Task({ task, onOpenEditPopup, onDeleteTask, onToggleComlete }) {
-   
+   const notificationShownRef = useRef(false);
    const handleCheckboxChange = () => {
       onToggleComlete(task.isComplete,task)
    };
@@ -12,6 +14,16 @@ function Task({ task, onOpenEditPopup, onDeleteTask, onToggleComlete }) {
    const handleDeleteButtonClick = () => {
       onDeleteTask(task);
    }
+   useEffect(() => {
+      const deadlineTime = new Date(task.deadline).getTime();
+      const currentTime = new Date().getTime();
+      const timeDiff = deadlineTime - currentTime;
+      if (!notificationShownRef.current && timeDiff > 0 && timeDiff < 24 * 60 * 60 * 1000) {
+         toast.warning(`Дедлайн задачи "${task.nameTask}" менее, чем через 24 часа.`);
+         notificationShownRef.current = true;
+      }
+   }, [task]);
+   
    return (
       <li className={`task ${task.isComplete ? 'checked' : ''}`}>
          <div className="task__buttons">
