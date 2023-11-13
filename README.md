@@ -1,6 +1,9 @@
 # TodoList
 Это приложение, которое позволяет эффективно управлять своими задачами.
 
+# Ссылка на сайт:
+https://moulavy.github.io/todolist/
+
 # Для старта:
 ```
 git clone git@github.com:moulavy/todolist.git
